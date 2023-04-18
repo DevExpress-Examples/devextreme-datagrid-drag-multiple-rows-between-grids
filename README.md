@@ -44,6 +44,5 @@ Use the [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiRefere
 [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/)
 
 ## More Examples
-
-- [DevExtreme TreeView - How to drag and drop multiple items](https://github.com/DevExpress-Examples/devextreme-treeview-drag-and-drop-multiple-items)
 - [DataGrid for DevExtreme - How to drag multiple rows](https://github.com/DevExpress-Examples/devextreme-datagrid-drag-multiple-rows)
+- [TreeView for DevExtreme - How to drag and drop multiple items](https://github.com/DevExpress-Examples/devextreme-treeview-drag-and-drop-multiple-items)
