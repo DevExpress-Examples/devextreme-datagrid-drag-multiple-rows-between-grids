@@ -7,6 +7,8 @@
 
 This example demonstrates how to simultaneously drag and drop multiple selected rows between two grids.
 
+![datagrid-drag-multiple-rows-between-grids](https://user-images.githubusercontent.com/21377435/232749557-c2557670-e658-4680-a58c-35092a9529f7.gif)
+
 This implementation is based on our demo that illustrates how to drag a single row between two grids using the same data source: [Drag & Drop Between Two Grids](https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/DnDBetweenGrids/jQuery/Light/).
 
 Although this example only illustrates a solution for DataGrid with remote data sources, the same solution also works for local data sources.
