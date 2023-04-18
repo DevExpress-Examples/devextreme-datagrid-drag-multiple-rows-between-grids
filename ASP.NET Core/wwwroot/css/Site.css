@@ -1,0 +1,44 @@
+.demo-container {
+    margin: 50px 50px;
+    width: 90vh;
+}
+
+.demo-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#toggle-container {
+    padding-top: 20px;
+}
+
+#clearAfterDropSwitch {
+    vertical-align: text-bottom;
+}
+
+#toggle-container span {
+    padding-right: 10px;
+}
+
+.drag-container {
+    padding: 10px;
+    border-collapse: unset;
+}
+
+.drag-container td {
+    padding: 0px 10px 0px 10px;
+}
+
+.tables {
+    display: flex;
+}
+
+.column:first-child {
+    width: 50%;
+    padding-right: 15px;
+}
+
+.column:last-child {
+    width: 50%;
+    padding-left: 15px;
+}
