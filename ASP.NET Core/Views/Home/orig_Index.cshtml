@@ -1,0 +1,103 @@
+<div class="demo-header">
+    <h3>DataGrid - Select multiple items and drag'n'drop</h3>
+    <div id="toggle-container">
+        <span>Clear selection after drop</span>
+        @(Html.DevExtreme().Switch().ID("clearAfterDropSwitch"))
+    </div>
+</div>
+<div class="tables">
+    <div class="column">
+        @await Html.PartialAsync("DnDBetweenGridsPartial", 1)
+    </div>
+    <div class="column">
+        @await Html.PartialAsync("DnDBetweenGridsPartial", 2)
+    </div>
+</div>
+
+<script>
+    let updateInProgress = false;
+
+    function onBeforeSend(method, ajaxOptions) {
+        ajaxOptions.xhrFields = {
+            withCredentials: true
+        };
+    }
+
+    function onAdd(e) {
+        const store1 = $("#grid1").dxDataGrid("instance").getDataSource().store();
+        const store2 = $("#grid2").dxDataGrid("instance").getDataSource().store();
+        const selectedRowKeys = e.fromComponent.getSelectedRowKeys();
+        const updateProcess = [];
+        const changes = [];
+
+        updateInProgress = true;
+        e.fromComponent.beginCustomLoading("Loading...");
+        e.toComponent.beginCustomLoading("Loading...");
+
+        for (key of selectedRowKeys) {
+            const values = { Status: e.toData };
+            updateProcess.push(store1.update(key, values));
+            changes.push({
+                type: 'update',
+                key,
+                data: values,
+            });
+        }
+
+        Promise.all(updateProcess).then(() => {
+            store1.push(changes);
+            store2.push(changes);
+            e.fromComponent.endCustomLoading();
+            e.toComponent.endCustomLoading();
+            updateInProgress = false;
+
+            e.fromComponent.clearSelection();
+            if (!shouldClearSelection()) {
+                e.toComponent.selectRows(selectedRowKeys, true);
+            }
+        });
+    }
+
+    function canDrag(e) {
+        if (updateInProgress) return false;
+        const visibleRows = e.component.getVisibleRows();
+        return visibleRows.some(r => r.isSelected && r.rowIndex === e.fromIndex);
+    }
+
+    function getVisibleRowValues(rowsData, grid) {
+        const visColumns = grid.getVisibleColumns().filter(c => c.dataField);
+        const selectedData = rowsData.map(s => {
+            const visibleValues = {};
+            visColumns.forEach(column => {
+                visibleValues[column.dataField] = column.lookup ?
+                    column.lookup.calculateCellValue(s[column.dataField]) :
+                    s[column.dataField];
+            });
+            return visibleValues;
+        });
+        return selectedData;
+    }
+
+    function onDragStart(e) {
+        const selectedData = e.component.getSelectedRowsData();
+        e.itemData = getVisibleRowValues(selectedData, e.component);
+        e.cancel = !canDrag(e);
+    }
+
+    function dragTemplate(dragData) {
+        const itemsContainer = $("<table>").addClass("drag-container");
+        dragData.itemData.forEach((rowData => {
+            const itemContainer = $("<tr>");
+            for (field in rowData) {
+                itemContainer.append($("<td>").text(rowData[field]));
+            }
+            itemsContainer.append(itemContainer);
+        }));
+        return $("<div>").append(itemsContainer);
+    }
+
+    function shouldClearSelection() {
+        return $("#clearAfterDropSwitch").dxSwitch("option", "value");
+    }
+</script>
+<script src="~/js/data.js"></script>
