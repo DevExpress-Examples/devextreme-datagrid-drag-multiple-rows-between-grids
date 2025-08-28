@@ -1,4 +1,43 @@
 .default-style {
   margin: 50px;
-  width: 90vw;
+  width: 90vh;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#toggle-container {
+  padding-top: 20px;
+}
+
+#clear-after-drop-switch {
+  vertical-align: text-bottom;
+}
+
+#toggle-container span {
+  padding-right: 10px;
+}
+
+.drag-container {
+  padding: 10px;
+}
+
+.drag-container td {
+  padding: 0 10px;
+}
+
+.tables {
+  display: flex;
+}
+
+.column:first-child {
+  width: 50%;
+  padding-right: 15px;
+}
+
+.column:last-child {
+  width: 50%;
+  padding-left: 15px;
 }

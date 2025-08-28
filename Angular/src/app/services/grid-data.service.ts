@@ -23,10 +23,10 @@ const priorities: Priority[] = [{
 }];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GridDataService {
-  getPriorities() {
+  getPriorities(): Priority[] {
     return priorities;
   }
 }
