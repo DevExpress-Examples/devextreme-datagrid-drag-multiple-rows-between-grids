@@ -8,15 +8,14 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASP_NET_Core.Controllers {
+namespace ASP_NET_Core.Controllers;
 
-    [Route("api/[controller]")]
-    public class SampleDataController : Controller {
+[Route("api/[controller]")]
+public class SampleDataController: Controller {
 
-        [HttpGet]
-        public object Get(DataSourceLoadOptions loadOptions) {
-            return DataSourceLoader.Load(SampleData.Orders, loadOptions);
-        }
-
+    [HttpGet]
+    public object Get(DataSourceLoadOptions loadOptions) {
+        return DataSourceLoader.Load(SampleData.Orders, loadOptions);
     }
+
 }

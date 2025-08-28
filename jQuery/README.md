@@ -1,50 +1,28 @@
 # jQuery DevExtreme Example
 
-## Installation
+For more information about this example check the [Readme](../README.md).
 
-Download the example and use NPM to install required libraries.
+## Build and Lint
 
-```
+Install dependencies:
+```sh
 npm install
 ```
 
-This project includes:
-- DevExtreme 25.1.3
-- jQuery 3.7.1
-- lite-server for development
-- ESLint, Stylelint, and Prettier for code quality
-
-## Code
-
-Take a look at the following files of this example to see the required code:
-
-**Source Files:**
-- `src/index.html` - Main HTML file with DevExtreme component setup
-- `src/index.js` - JavaScript code with DevExtreme component initialization
-- `src/index.css` - Custom styles for the application
-
-**Configuration Files:**
-- `package.json` - NPM dependencies and scripts
-- `bs-config.json` - Lite-server configuration
-- `favicon.ico` - Application icon
-
-## Development server
-
-Run the `npm start` command to run the development server. The application will be available at:
+Start dev server:
+```sh
+npm start
 ```
-http://localhost:5050/src/index.html
+App URL: http://localhost:5050/src/index.html
+
+Run linter:
+```sh
+npm run lint
 ```
-
-## Linting and Code Quality
-
-This project includes several code quality tools:
-- `npm run lint` - Run all linting checks
-- `npm run lint-js` - ESLint for JavaScript files
-- `npm run lint-css` - Stylelint for CSS files  
-- `npm run lint-html` - Prettier for HTML formatting
 
 ## Further help
 
-You can learn more about jQuery API in the [jQuery documentation](https://api.jquery.com/).
+jQuery docs: https://api.jquery.com/
+DevExtreme docs: https://js.devexpress.com/jQuery/Documentation
 
-To get more help on DevExtreme submit an issue in the [Support Center](https://supportcenter.devexpress.com/ticket/create)
+To get more help with DevExtreme, submit a ticket through the [Support Center](https://supportcenter.devexpress.com/ticket/create).

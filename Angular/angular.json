@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "devextreme-quill",
+              "jszip",
+              "devexpress-diagram",
+              "devexpress-gantt"
+            ],
             "outputPath": "dist/Angular",
             "index": "src/index.html",
             "main": "src/main.ts",

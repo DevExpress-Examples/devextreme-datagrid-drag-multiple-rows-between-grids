@@ -25,8 +25,6 @@ Use the [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiRefere
 
 ## Files to Review
 
-- **jQuery**
-    - [index.js](jQuery/src/index.js)
 - **Angular**
     - [app.component.html](Angular/src/app/app.component.html)
     - [app.component.ts](Angular/src/app/app.component.ts)
@@ -35,7 +33,6 @@ Use the [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiRefere
     - [Grid.vue](Vue/src/components/Grid.vue)
 - **React**
     - [App.tsx](React/src/App.tsx)
-    - [Grid.tsx](React/src/Grid.tsx)
 - **NetCore**    
     - [Index.cshtml](ASP.NET%20Core/Views/Home/Index.cshtml)
     - [DnDBetweenGridsPartial.cshtml](ASP.NET%20Core/Views/Home/DnDBetweenGridsPartial.cshtml)
