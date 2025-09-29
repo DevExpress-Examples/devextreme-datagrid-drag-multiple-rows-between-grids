@@ -112,16 +112,21 @@ $(() => {
 
   function getVisibleRowValues(rowsData, grid) {
     const visibleColumns = grid.getVisibleColumns().filter((c) => c.dataField);
-    const selectedData = rowsData.map((s) => {
+    const selectedData = rowsData.map((rowData) => {
       const visibleValues = {};
       visibleColumns.forEach((column) => {
-        visibleValues[column.dataField] = column.lookup
-          ? column.lookup.calculateCellValue(s[column.dataField])
-          : s[column.dataField];
+        if(column.dataField){
+          visibleValues[column.dataField] = getVisibleCellValue(column, rowData);
+        }
       });
-      return visibleValues;
+        return visibleValues;
     });
     return selectedData;
+  }
+
+  function getVisibleCellValue(column, rowData){
+    const cellValue = rowData[column.dataField];
+    return column.lookup ? column.lookup.calculateCellValue(cellValue) : cellValue;
   }
 
   function shouldClearSelection() {
