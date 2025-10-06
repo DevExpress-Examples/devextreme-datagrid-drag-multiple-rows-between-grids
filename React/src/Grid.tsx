@@ -1,9 +1,15 @@
-import { useState, useMemo, useCallback} from 'react';
-import DataGrid, { Column, RowDragging, Scrolling, Lookup, Selection } from 'devextreme-react/data-grid';
-import dxDataGrid, { RowDraggingStartEvent, Column as DxColumn, RowDraggingAddEvent, Row } from 'devextreme/ui/data_grid';
-import { DragTemplateData } from 'devextreme/ui/draggable';
+import { useState, useMemo, useCallback } from 'react';
+import DataGrid, {
+  Column, RowDragging, Scrolling, Lookup, Selection,
+} from 'devextreme-react/data-grid';
+import type { DataGridTypes } from 'devextreme-react/data-grid';
+import type dxDataGrid from 'devextreme/ui/data_grid';
+import type { DragTemplateData } from 'devextreme/ui/draggable';
 import CustomStore from 'devextreme/data/custom_store';
-import { Task, priorities } from './data';
+import notify from 'devextreme/ui/notify';
+import { type Task, priorities } from './data';
+
+type CellValue = Task[keyof Task] | string | undefined;
 
 interface GridDemoComponentProps {
   status?: number;
@@ -11,66 +17,63 @@ interface GridDemoComponentProps {
   shouldClearSelection: boolean;
 }
 
-function draggedItemsRender(data: DragTemplateData) {
+function draggedItemsRender(data: DragTemplateData): JSX.Element {
   const draggedItems = data.itemData.map((item: Task, rowIndex: number) => {
-      const cellValues = (Object.keys(item) as (keyof Task)[]).map((key: keyof Task, dataIndex: number) =>
-          <td key={"key" + dataIndex}>{item[key]}</td>
-      );
-      return (<tr key={"row" + rowIndex}>{cellValues}</tr>)
+    const cellValues = (Object.keys(item) as (keyof Task)[]).map((key: keyof Task, dataIndex: number) => <td key={`key${dataIndex}`}>{item[key]}</td>);
+    return (<tr key={`row${rowIndex}`}>{cellValues}</tr>);
   });
   return (<table className="drag-container">
-      <tbody>{draggedItems}</tbody>
+    <tbody>{draggedItems}</tbody>
   </table>);
 }
 
-function getVisibleRowValues(rowsData: Task[], grid: dxDataGrid) {
-    const visibleColumns = grid.getVisibleColumns();
-    const selectedData = rowsData.map((rowData: Task) => {
-        const visibleValues: any = {};
-        visibleColumns.forEach((column: DxColumn) => {
-            if (column.dataField)
-                visibleValues[column.dataField] = getVisibleCellValue(column, rowData);
-        });
-        return visibleValues;
+function getVisibleRowValues(rowsData: Task[], grid: dxDataGrid): Record<string, CellValue>[] {
+  const visibleColumns = grid.getVisibleColumns();
+  const selectedData = rowsData.map((rowData: Task) => {
+    const visibleValues: Record<string, CellValue> = {};
+    visibleColumns.forEach((column: DataGridTypes.Column) => {
+      if (column.dataField) { visibleValues[column.dataField] = getVisibleCellValue(column, rowData); }
     });
-    return selectedData;
+    return visibleValues;
+  });
+  return selectedData;
 }
 
-function getVisibleCellValue(column: DxColumn, rowData: Task) {
-    if (column.dataField) {
-        const propKey = column.dataField as (keyof Task);
-        const cellValue = rowData[propKey];
-        return column.lookup && column.lookup.calculateCellValue ? column.lookup.calculateCellValue(cellValue) : cellValue;
-    }
+function getVisibleCellValue(column: DataGridTypes.Column, rowData: Task): CellValue {
+  if (column.dataField) {
+    const propKey = column.dataField as keyof Task;
+    const cellValue = rowData[propKey];
+    return column?.lookup?.calculateCellValue
+      ? column.lookup.calculateCellValue(cellValue) as CellValue
+      : cellValue as CellValue;
+  }
+  return undefined;
 }
 
-export default function Grid({ status, tasksStore, shouldClearSelection }: GridDemoComponentProps) {
+export default function Grid({ status, tasksStore, shouldClearSelection }: GridDemoComponentProps): JSX.Element {
   const [updateInProgress, setUpdateInProgress] = useState(false);
 
-  const filterExpr = useMemo(() => {
-    return ['Status', '=', status];
-  }, [status]);
+  const filterExpr = useMemo(() => ['Status', '=', status], [status]);
 
-  const dataSource = useMemo(() => {
-    return {
-      store: tasksStore,
-      reshapeOnPush: true,
-    };
-  }, [tasksStore]);
+  const dataSource = useMemo(() => ({
+    store: tasksStore,
+    reshapeOnPush: true,
+  }), [tasksStore]);
 
-  const canDrag = useCallback((e: RowDraggingStartEvent) => {
+  const canDrag = useCallback((e: DataGridTypes.RowDraggingStartEvent): boolean => {
     if (updateInProgress) return false;
     const visibleRows = e.component.getVisibleRows();
-    return visibleRows.some((r: Row) => r.isSelected && r.rowIndex === e.fromIndex);
+    return visibleRows.some((r: DataGridTypes.Row) => r.isSelected && r.rowIndex === e.fromIndex);
   }, [updateInProgress]);
 
-  const onDragStart = useCallback((e: RowDraggingStartEvent) => {
+  const onDragStart = useCallback((e: DataGridTypes.RowDraggingStartEvent): void => {
     const selectedData: Task[] = e.component.getSelectedRowsData();
     e.itemData = getVisibleRowValues(selectedData, e.component);
     e.cancel = !canDrag(e);
   }, [canDrag]);
 
-  const onAdd = useCallback((e: RowDraggingAddEvent) => {
+  // eslint-disable-next-line @typescript-eslint/space-before-function-paren
+  const onAdd = useCallback(async(e: DataGridTypes.RowDraggingAddEvent): Promise<void> => {
     const fromGrid = e.fromComponent as dxDataGrid;
     const toGrid = e.toComponent as dxDataGrid;
     const selectedRowKeys: (keyof Task)[] = fromGrid.getSelectedRowKeys();
@@ -78,8 +81,8 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
     const changes: any[] = [];
 
     setUpdateInProgress(true);
-    fromGrid.beginCustomLoading("Loading...");
-    toGrid.beginCustomLoading("Loading...");
+    fromGrid.beginCustomLoading('Loading...');
+    toGrid.beginCustomLoading('Loading...');
     for (let key of selectedRowKeys) {
       const values = { Status: e.toData };
       updateProcess.push(tasksStore?.update(key, values));
@@ -89,7 +92,8 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
         data: values,
       });
     }
-    Promise.all(updateProcess).then(() => {
+    try {
+      await Promise.all(updateProcess);
       tasksStore?.push(changes);
       fromGrid.endCustomLoading();
       toGrid.endCustomLoading();
@@ -97,9 +101,11 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
 
       fromGrid.clearSelection();
       if (!shouldClearSelection) {
-        toGrid.selectRows(selectedRowKeys, true);
+        await toGrid.selectRows(selectedRowKeys, true);
       }
-    });
+    } catch (error: unknown) {
+      notify(error, 'error', 1000);
+    }
   }, [tasksStore, shouldClearSelection]);
 
   return (
@@ -112,8 +118,8 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
       <RowDragging
         data={status}
         group="tasksGroup"
-        onAdd={onAdd}
-        onDragStart={onDragStart}
+        onAdd={onAdd as unknown as () => void}
+        onDragStart={onDragStart as () => void}
         dragRender={draggedItemsRender}
       />
       <Selection mode="multiple" />
@@ -138,7 +144,6 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
         dataType="number"
         visible={false}
       />
-
     </DataGrid>
   );
-};
+}
