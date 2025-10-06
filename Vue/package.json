@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "devextreme": "25.1.3",
+    "devextreme-aspnet-data-nojquery": "^5.1.0",
     "devextreme-vue": "25.1.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

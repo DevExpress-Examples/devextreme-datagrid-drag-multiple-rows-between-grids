@@ -11,11 +11,11 @@ interface Priority {
 }
 
 export const priorities: Priority[] = [{
-    id: 1, text: 'Low',
+  id: 1, text: 'Low',
 }, {
-    id: 2, text: 'Normal',
+  id: 2, text: 'Normal',
 }, {
-    id: 3, text: 'High',
+  id: 3, text: 'High',
 }, {
-    id: 4, text: 'Urgent',
+  id: 4, text: 'Urgent',
 }];
