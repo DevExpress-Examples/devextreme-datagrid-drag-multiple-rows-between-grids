@@ -1,5 +1,4 @@
 <!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/629412578/25.1.3%2B)
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T1160747)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 [![](https://img.shields.io/badge/💬_Leave_Feedback-feecdd?style=flat-square)](#does-this-example-address-your-development-requirementsobjectives)
@@ -18,21 +17,19 @@ For remote data sources, multiple requests are sent to update the order index of
 
 ## Implementation Details
 
-Use the [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/) object to configure the drag and drop functionality:
-1) Handle the [RowDragging.onDragStart](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#onDragStart) event to collect selected rows and cancel the drag operation if a user attempts to drag non-selected rows.
-2) Handle the [RowDragging.onAdd](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#onAdd) event to update rows in the data source.
-3) Define [RowDragging.dragTemplate](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#dragTemplate) to arrange cell values of selected rows for the dragged item.
+Use the [DataGrid.rowDragging](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/) object to configure the drag and drop functionality:
+1) Handle the [RowDragging.onDragStart](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#onDragStart) event to collect selected rows and cancel the drag operation if a user attempts to drag non-selected rows.
+2) Handle the [RowDragging.onAdd](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#onAdd) event to update rows in the data source.
+3) Define [RowDragging.dragTemplate](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/#dragTemplate) to arrange cell values of selected rows for the dragged item.
 
 ## Files to Review
 
-- **jQuery**
-    - [index.js](jQuery/src/index.js)
 - **Angular**
     - [app.component.html](Angular/src/app/app.component.html)
     - [app.component.ts](Angular/src/app/app.component.ts)
 - **Vue**
     - [HomeContent.vue](Vue/src/components/HomeContent.vue)
-    - [Grid.vue](Vue/src/components/Grid.vue)
+    - [Grid.vue](Vue/src/components/CustomGrid.vue)
 - **React**
     - [App.tsx](React/src/App.tsx)
     - [Grid.tsx](React/src/Grid.tsx)
@@ -42,7 +39,7 @@ Use the [DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiRefere
 
 ## Documentation
 
-[DataGrid.rowDragging](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/)
+[DataGrid.rowDragging](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/rowDragging/)
 
 ## More Examples
 - [DataGrid for DevExtreme - How to drag multiple rows](https://github.com/DevExpress-Examples/devextreme-datagrid-drag-multiple-rows)

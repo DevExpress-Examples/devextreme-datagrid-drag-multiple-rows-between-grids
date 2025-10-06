@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ASP_NET_Core.Models {
+namespace ASP_NET_Core.Models
+{
     public class RowReorderingTask
     {
         public int ID { set; get; }
@@ -15,4 +16,6 @@ namespace ASP_NET_Core.Models {
         public int OrderIndex { get; set; }
         public int Priority { get; set; }
     }
+
+ 
 }

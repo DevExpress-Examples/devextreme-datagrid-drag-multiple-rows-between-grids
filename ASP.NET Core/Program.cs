@@ -2,37 +2,55 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ASP_NET_Core {
-    public class Program {
-        public static void Main(string[] args) {
-            var builder = WebApplication.CreateBuilder(args);
+namespace ASP_NET_Core;
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services
-                .AddControllersWithViews()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+        // Add services to the container.
+        builder.Services
+            .AddControllersWithViews()
+            .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-            var app = builder.Build();
+        builder.Services.AddMemoryCache();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment()) {
-                app.UseDeveloperExceptionPage();
-            } else {
-                app.UseExceptionHandler("/Home/Error");
-            }
+        builder.Services.AddSession(options =>
+        {
+            options.Cookie.Name = "DevExtreme.Example.DnDBetweenGrids";
+            options.IdleTimeout = TimeSpan.FromMinutes(30);  
+            options.Cookie.HttpOnly = true;              
+            options.Cookie.IsEssential = true;              
+        });
 
-            app.UseStaticFiles();
+        builder.Services.AddHttpContextAccessor();
 
-            app.UseRouting();
+        var app = builder.Build();
 
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"
-            );
-
-            app.Run();
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseSession();
+
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}"
+        );
+
+        app.Run();
     }
 }

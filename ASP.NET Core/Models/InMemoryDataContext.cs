@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +49,8 @@ namespace ASP.NET_Core.Models
 
         static ICollection<T> DeepClone(IEnumerable<T> source)
         {
-            return JsonConvert.DeserializeObject<List<T>>(JsonConvert.SerializeObject(source));
+            var json = JsonSerializer.Serialize(source);
+            return JsonSerializer.Deserialize<List<T>>(json);
         }
     }
 }

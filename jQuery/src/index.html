@@ -10,12 +10,28 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
     <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="../node_modules/devextreme-dist/js/dx.all.js"></script>
+    <script src="https://unpkg.com/devextreme-aspnet-data@5.1.0/js/dx.aspnet.data.js"></script>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="data.js"></script>
   </head>
 
   <body class="dx-viewport">
     <div class="demo-container">
-      <div id="btn"></div>
+      <div class="demo-header">
+        <h3>DataGrid - Select multiple items and drag'n'drop between grids</h3>
+        <div id="toggle-container">
+          <span>Clear selection of dropped items</span>
+          <div id="clear-after-drop-switch"></div>
+        </div>
+      </div>
+      <div class="tables" id="tables">
+        <div class="column">
+          <div id="grid1"></div>
+        </div>
+        <div class="column">
+          <div id="grid2"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -9,7 +9,8 @@ namespace ASP.NET_Core.Models
     {
 
         public InMemoryRowReorderingTasksDataContext(IHttpContextAccessor contextAccessor, IMemoryCache memoryCache)
-            : base(contextAccessor, memoryCache) {
+            : base(contextAccessor, memoryCache)
+        {
         }
 
         public ICollection<RowReorderingTask> Tasks => ItemsInternal;

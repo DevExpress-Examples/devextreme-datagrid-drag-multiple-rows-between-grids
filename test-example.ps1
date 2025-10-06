@@ -229,7 +229,9 @@ function Process-AspNetCoreProject {
                 }
 
                 if ($updated) {
-                    $packageJson | ConvertTo-Json -Depth 10 | Set-Content -Path $packageJsonPath -Encoding UTF8
+                    #$packageJson | ConvertTo-Json -Depth 10 | Set-Content -Path $packageJsonPath -Encoding UTF8
+                    $jsonContent = $packageJson | ConvertTo-Json -Depth 10
+                    [System.IO.File]::WriteAllText($packageJsonPath, $jsonContent, [System.Text.UTF8Encoding]::new($false))
                     Write-Host "Updated package.json with valid versions."
                 } else {
                     Write-Host "No matching dependencies found in package.json to update."

@@ -1,5 +1,3 @@
-import { Injectable } from '@angular/core';
-
 export interface Task {
   ID?: number;
   Priority?: number;
@@ -7,12 +5,12 @@ export interface Task {
   Subject?: string;
 }
 
-export interface Priority {
+interface Priority {
   id?: number;
   text?: string;
 }
 
-const priorities: Priority[] = [{
+export const priorities: Priority[] = [{
   id: 1, text: 'Low',
 }, {
   id: 2, text: 'Normal',
@@ -21,12 +19,3 @@ const priorities: Priority[] = [{
 }, {
   id: 4, text: 'Urgent',
 }];
-
-@Injectable({
-  providedIn: 'root'
-})
-export class GridDataService {
-  getPriorities() {
-    return priorities;
-  }
-}
