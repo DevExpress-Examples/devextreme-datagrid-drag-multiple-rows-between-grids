@@ -18,6 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
+              "devextreme-aspnet-data-nojquery",
               "devextreme-quill",
               "jszip",
               "devexpress-diagram",

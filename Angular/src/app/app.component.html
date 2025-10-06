@@ -17,8 +17,8 @@
         <dxo-data-grid-row-dragging
           [data]="status"
           group="tasksGroup"
-          [onAdd]="onAdd"
-          [onDragStart]="onDragStart"
+          [onAdd]="$any(onAdd)"
+          [onDragStart]="$any(onDragStart)"
           dragTemplate="drag-template"
         ></dxo-data-grid-row-dragging>
 
@@ -32,9 +32,11 @@
           </table>
         </div>
 
-        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-data-grid-selection mode="multiple"></dxo-data-grid-selection>
 
         <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxo-data-grid-scrolling mode="virtual"></dxo-data-grid-scrolling>
 
         <dxi-data-grid-column
           dataField="Subject"
@@ -45,11 +47,11 @@
           dataType="number"
           [width]="80"
         >
-          <dxo-lookup
+          <dxo-data-grid-lookup
             [dataSource]="priorities"
             valueExpr="id"
             displayExpr="text"
-          ></dxo-lookup>
+          ></dxo-data-grid-lookup>
         </dxi-data-grid-column>
         <dxi-data-grid-column
           dataField="Status"

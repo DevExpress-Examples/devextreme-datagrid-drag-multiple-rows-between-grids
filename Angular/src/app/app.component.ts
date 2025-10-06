@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { Task, Priority, GridDataService } from 'src/app/services/grid-data.service';
 import * as AspNetData from 'devextreme-aspnet-data-nojquery';
-import DxDataGrid, {
-  RowDraggingStartEvent, RowDraggingAddEvent, Column, Row,
-} from 'devextreme/ui/data_grid';
+import dxDataGrid from 'devextreme/ui/data_grid';
+import type { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import CustomStore from 'devextreme/data/custom_store';
 import { DataSourceOptions } from 'devextreme/data/data_source';
 import notify from 'devextreme/ui/notify';
+
+type CellValue = Task[keyof Task] | string | undefined;
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,7 @@ export class AppComponent {
       key: 'ID',
       loadUrl: `${url}/Tasks`,
       updateUrl: `${url}/UpdateTask`,
-      onBeforeSend(method, ajaxOptions) {
+      onBeforeSend(_method, ajaxOptions) {
         ajaxOptions.xhrFields = { withCredentials: true };
       },
     });
@@ -50,15 +51,15 @@ export class AppComponent {
     this.canDrag = this.canDrag.bind(this);
   }
 
-  onDragStart(e: any): void {
+  onDragStart(e: DxDataGridTypes.RowDraggingStartEvent): void {
     const selectedData: Task[] = e.component.getSelectedRowsData();
     e.itemData = this.getVisibleRowValues(selectedData, e.component);
     e.cancel = !this.canDrag(e);
   }
 
-  async onAdd(e: any): Promise<void> {
-    const fromGrid = e.fromComponent as DxDataGrid;
-    const toGrid = e.toComponent as DxDataGrid;
+  async onAdd(e: DxDataGridTypes.RowDraggingAddEvent): Promise<void> {
+    const fromGrid = e.fromComponent as dxDataGrid;
+    const toGrid = e.toComponent as dxDataGrid;
     const selectedRowKeys: (keyof Task)[] = fromGrid.getSelectedRowKeys();
     const updateProcess: Promise<any>[] = [];
     const changes: any[] = [];
@@ -80,7 +81,6 @@ export class AppComponent {
 
     try {
       await Promise.all(updateProcess);
-
       this.tasksStore.push(changes);
       fromGrid.endCustomLoading();
       toGrid.endCustomLoading();
@@ -95,11 +95,11 @@ export class AppComponent {
     }
   }
 
-  getVisibleRowValues(rowsData: Task[], grid: DxDataGrid): Record<string, Task[keyof Task] | string | undefined>[] {
+  getVisibleRowValues(rowsData: Task[], grid: dxDataGrid): Record<string, CellValue>[] {
     const visibleColumns = grid.getVisibleColumns();
     const selectedData = rowsData.map((rowData: Task) => {
-      const visibleValues: Record<string, Task[keyof Task] | string | undefined> = {};
-      visibleColumns.forEach((column: Column) => {
+      const visibleValues: Record<string, CellValue> = {};
+      visibleColumns.forEach((column: DxDataGridTypes.Column) => {
         if (column.dataField) {
           visibleValues[column.dataField] = this.getVisibleCellValue(column, rowData);
         }
@@ -109,22 +109,17 @@ export class AppComponent {
     return selectedData;
   }
 
-  getVisibleCellValue(column: Column, rowData: Task): Task[keyof Task] | string | undefined {
-    if (column.dataField) {
-      const propKey = column.dataField as keyof Task;
-      const cellValue = rowData[propKey];
-
-      return column.lookup?.calculateCellValue
-        ? String(column.lookup.calculateCellValue(cellValue))
-        : cellValue;
-    }
-    return undefined;
+  getVisibleCellValue(column: DxDataGridTypes.Column, rowData: Task): CellValue {
+    const cellValue = rowData[column.dataField as keyof Task];
+    return column.lookup?.calculateCellValue
+      ? String(column.lookup.calculateCellValue(cellValue))
+      : cellValue;
   }
 
-  canDrag(e: RowDraggingStartEvent): Row | Boolean {
+  canDrag(e: DxDataGridTypes.RowDraggingStartEvent): DxDataGridTypes.Row | Boolean {
     if (this.updateInProgress) return false;
     const visibleRows = e.component.getVisibleRows();
-    return visibleRows.some((r: Row) => r.isSelected && r.rowIndex === e.fromIndex);
+    return visibleRows.some((r: DxDataGridTypes.Row) => r.isSelected && r.rowIndex === e.fromIndex);
   }
 
   originalOrder(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
