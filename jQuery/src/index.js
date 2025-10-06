@@ -27,24 +27,8 @@ $(() => {
         data: index,
         group: 'tasksGroup',
         onAdd,
-        onDragStart(e) {
-          const selectedData = e.component.getSelectedRowsData();
-          e.itemData = getVisibleRowValues(selectedData, e.component);
-          e.cancel = !canDrag(e);
-        },
-        dragTemplate(dragData) {
-          const itemsContainer = $('<table>').addClass('drag-container');
-          dragData.itemData.forEach(((rowData) => {
-            const itemContainer = $('<tr>');
-
-            Object.keys(rowData).forEach((field) => {
-              itemContainer.append($('<td>').text(rowData[field]));
-            });
-
-            itemsContainer.append(itemContainer);
-          }));
-          return $('<div>').append(itemsContainer);
-        },
+        onDragStart,
+        dragTemplate,
       },
       scrolling: {
         mode: 'virtual',
@@ -72,6 +56,26 @@ $(() => {
   $('#grid1').dxDataGrid(getDataGridConfiguration(1));
 
   $('#grid2').dxDataGrid(getDataGridConfiguration(2));
+
+  function onDragStart(e) {
+    const selectedData = e.component.getSelectedRowsData();
+    e.itemData = getVisibleRowValues(selectedData, e.component);
+    e.cancel = !canDrag(e);
+  }
+
+  function dragTemplate(dragData) {
+    const itemsContainer = $('<table>').addClass('drag-container');
+    dragData.itemData.forEach(((rowData) => {
+      const itemContainer = $('<tr>');
+
+      Object.keys(rowData).forEach((field) => {
+        itemContainer.append($('<td>').text(rowData[field]));
+      });
+
+      itemsContainer.append(itemContainer);
+    }));
+    return $('<div>').append(itemsContainer);
+  }
 
   function onAdd(e) {
     const selectedRowKeys = e.fromComponent.getSelectedRowKeys();
@@ -115,16 +119,16 @@ $(() => {
     const selectedData = rowsData.map((rowData) => {
       const visibleValues = {};
       visibleColumns.forEach((column) => {
-        if(column.dataField){
+        if (column.dataField) {
           visibleValues[column.dataField] = getVisibleCellValue(column, rowData);
         }
       });
-        return visibleValues;
+      return visibleValues;
     });
     return selectedData;
   }
 
-  function getVisibleCellValue(column, rowData){
+  function getVisibleCellValue(column, rowData) {
     const cellValue = rowData[column.dataField];
     return column.lookup ? column.lookup.calculateCellValue(cellValue) : cellValue;
   }
