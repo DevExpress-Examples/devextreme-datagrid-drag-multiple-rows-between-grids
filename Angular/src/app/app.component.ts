@@ -124,7 +124,7 @@ export class AppComponent {
     return visibleRows.some((r: DxDataGridTypes.Row) => r.isSelected && r.rowIndex === e.fromIndex);
   }
 
-  originalOrder(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
+  originalOrder(_a: KeyValue<number, string>, _b: KeyValue<number, string>): number {
     return 0;
   }
 }

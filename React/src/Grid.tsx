@@ -27,6 +27,17 @@ function draggedItemsRender(data: DragTemplateData): JSX.Element {
   </table>);
 }
 
+function getVisibleCellValue(column: DataGridTypes.Column, rowData: Task): CellValue {
+  if (column.dataField) {
+    const propKey = column.dataField as keyof Task;
+    const cellValue = rowData[propKey];
+    return column?.lookup?.calculateCellValue
+      ? column.lookup.calculateCellValue(cellValue) as CellValue
+      : cellValue as CellValue;
+  }
+  return undefined;
+}
+
 function getVisibleRowValues(rowsData: Task[], grid: dxDataGrid): Record<string, CellValue>[] {
   const visibleColumns = grid.getVisibleColumns();
   const selectedData = rowsData.map((rowData: Task) => {
@@ -37,17 +48,6 @@ function getVisibleRowValues(rowsData: Task[], grid: dxDataGrid): Record<string,
     return visibleValues;
   });
   return selectedData;
-}
-
-function getVisibleCellValue(column: DataGridTypes.Column, rowData: Task): CellValue {
-  if (column.dataField) {
-    const propKey = column.dataField as keyof Task;
-    const cellValue = rowData[propKey];
-    return column?.lookup?.calculateCellValue
-      ? column.lookup.calculateCellValue(cellValue) as CellValue
-      : cellValue as CellValue;
-  }
-  return undefined;
 }
 
 export default function Grid({ status, tasksStore, shouldClearSelection }: GridDemoComponentProps): JSX.Element {
@@ -72,8 +72,7 @@ export default function Grid({ status, tasksStore, shouldClearSelection }: GridD
     e.cancel = !canDrag(e);
   }, [canDrag]);
 
-  // eslint-disable-next-line @typescript-eslint/space-before-function-paren
-  const onAdd = useCallback(async(e: DataGridTypes.RowDraggingAddEvent): Promise<void> => {
+  const onAdd = useCallback(async (e: DataGridTypes.RowDraggingAddEvent): Promise<void> => {
     const fromGrid = e.fromComponent as dxDataGrid;
     const toGrid = e.toComponent as dxDataGrid;
     const selectedRowKeys: (keyof Task)[] = fromGrid.getSelectedRowKeys();
