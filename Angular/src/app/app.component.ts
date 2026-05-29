@@ -7,10 +7,12 @@ import type { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import CustomStore from 'devextreme/data/custom_store';
 import { DataSourceOptions } from 'devextreme/data/data_source';
 import notify from 'devextreme/ui/notify';
+import { DxDataGridModule, DxSwitchModule } from 'devextreme-angular';
 
 type CellValue = Task[keyof Task] | string | undefined;
 
 @Component({
+  imports: [DxDataGridModule, DxSwitchModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
