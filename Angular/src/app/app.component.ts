@@ -26,7 +26,7 @@ export class AppComponent {
 
   shouldClearSelection = false;
 
-  updateInProgress: boolean = false;
+  updateInProgress = false;
 
   constructor(service: GridDataService) {
     const url = 'https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids';
