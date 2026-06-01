@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { Task, Priority, GridDataService } from 'src/app/services/grid-data.service';
 import * as AspNetData from 'devextreme-aspnet-data-nojquery';
-import dxDataGrid from 'devextreme/ui/data_grid';
+import type dxDataGrid from 'devextreme/ui/data_grid';
 import type { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import CustomStore from 'devextreme/data/custom_store';
 import { DataSourceOptions } from 'devextreme/data/data_source';
@@ -26,7 +26,7 @@ export class AppComponent {
 
   shouldClearSelection = false;
 
-  updateInProgress: Boolean = false;
+  updateInProgress: boolean = false;
 
   constructor(service: GridDataService) {
     const url = 'https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids';
@@ -116,7 +116,7 @@ export class AppComponent {
       : cellValue;
   }
 
-  canDrag(e: DxDataGridTypes.RowDraggingStartEvent): DxDataGridTypes.Row | Boolean {
+  canDrag(e: DxDataGridTypes.RowDraggingStartEvent): DxDataGridTypes.Row | boolean {
     if (this.updateInProgress) return false;
     const visibleRows = e.component.getVisibleRows();
     return visibleRows.some((r: DxDataGridTypes.Row) => r.isSelected && r.rowIndex === e.fromIndex);
