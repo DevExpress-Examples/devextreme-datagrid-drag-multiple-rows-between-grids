@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
+    <NodeModulesDir>$(ProjectDir)node_modules\</NodeModulesDir>
+    <WwwRootDir>$(ProjectDir)wwwroot\</WwwRootDir>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
