@@ -9,7 +9,7 @@
 
     <ItemGroup>
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="25.1.3" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="26.1.2-beta" />
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>
