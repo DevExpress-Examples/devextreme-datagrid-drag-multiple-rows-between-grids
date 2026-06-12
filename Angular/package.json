@@ -56,5 +56,10 @@
     "eslint-plugin-spellcheck": "^0.0.20",
     "typescript-eslint": "^8.49.0"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "devextreme-aspnet-data-nojquery": {
+      "devextreme": "$devextreme"
+    }
+  }
 }

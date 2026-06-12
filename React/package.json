@@ -47,5 +47,10 @@
     "vite": "^6.3.5",
     "vitest": "^1.5.0",
     "eslint-plugin-spellcheck": "^0.0.20"
+  },
+  "overrides": {
+    "devextreme-aspnet-data-nojquery": {
+      "devextreme": "$devextreme"
+    }
   }
 }

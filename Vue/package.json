@@ -42,5 +42,10 @@
     "vue-tsc": "^2.0.0",
     "eslint-plugin-spellcheck": "^0.0.20"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "devextreme-aspnet-data-nojquery": {
+      "devextreme": "$devextreme"
+    }
+  }
 }
