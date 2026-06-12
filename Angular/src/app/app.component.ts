@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { Task, Priority, GridDataService } from 'src/app/services/grid-data.service';
 import * as AspNetData from 'devextreme-aspnet-data-nojquery';
@@ -15,6 +15,7 @@ type CellValue = Task[keyof Task] | string | undefined;
   imports: [DxDataGridModule, DxSwitchModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
