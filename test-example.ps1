@@ -124,7 +124,12 @@ function Process-JavaScriptProjects {
             Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
             Install-Packages -folderName $folderName -packages $packages -buildVersion $buildVersion
             Write-Output "`nInstalling remaining packages in $folderName"
-            npm install --no-fund --loglevel=error
+            $npmFlags = @()
+            # assuming x.y.2 is always beta, and installing with --force
+            if (([version]$buildVersion).Build -eq 2) {
+                $npmFlags += '--force'
+            }
+            npm install --no-fund --loglevel=error @npmFlags
             if (-not $?) {
                 throw "ERROR: Failed to install remaining packages in $folderName"
             }
